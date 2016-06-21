@@ -3,6 +3,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+span{
+    margin: 0px 0px 0px 5px;
+}
+
 #field {
 }
 
@@ -10,8 +14,23 @@ h1, h2, h3, h4, h5, h6, p, span {
     color: white;
 }
 
-p{
-    margin: 20px;
+p{ 
+    padding: 10px 30px;
+}
+
+.info{
+    width:270px;
+    border: 1px solid white;
+    border-radius: 0px 15px 0px 0px;
+    background-color: purple;
+}
+
+.info p{
+    font-size: 1.2rem;
+    color: greenyellow;
+    margin: 10px 60px 10px 10px;
+    text-align: right;
+    padding: 0px;
 }
 
 #title{
@@ -29,3 +48,8 @@ p{
     border: 1px solid white;
     margin: auto;
 }
+
+#gameover{
+    text-align: center;
+}
+

@@ -7,10 +7,18 @@ $('document').ready(function () {
         'pfHeight': 600,
         'pfWidth': 600,
         'lives': 5,
-        'bubCount': 0
+        'bubCount': 0,
+        'updateScore': function(b){ 
+            if (b){ 
+                $('#score').text(this.bubCount); 
+            } else {
+                --this.lives; $('#lives').text(this.lives); 
+            }
+         }
     };
 
     function init() {
+        
         var bub = {};
 
         $(defaults.pf).css({
@@ -22,90 +30,96 @@ $('document').ready(function () {
         
         setScoreboard();
 
-        $(document).keydown(function (e) {
+        $(document).on('keydown', function (e) {
+            console.groupCollapsed('keypress');
             console.log('Current Bub: ' + bub.text);
             console.log('e.target: ' + e.target);
             console.log('e.keyCode: ' + e.keyCode);
+            console.groupEnd();
 
             if (e.keyCode === bub.code) {
                 console.log('CORRECT keypress');
-
+                defaults.updateScore(true);
             } else {
                 console.log('WRONG keypress');
-                defaults.lives--;
+                defaults.updateScore(false);
             }
 
-            killBub(bub);
+            bub.kill();
 
             if (defaults.lives > 0) {
                 console.log('>0...defaults.lives: ' + defaults.lives);
-                createBub(bub)
+                bub = new Bub() 
+                bub.showBub();
             } else {
                 console.log('else...defaults.lives: ' + defaults.lives);
-                endGame(bub)
+                endGame()
             }
         });
-        createBub(bub);
-    }
-
-    function setScoreboard() {
-        $('#scoreboard').css({ "width": defaults.pfWidth });
-        $('#lives').text(defaults.lives);
-    }
-
-
-    function createBub(bub) {
-
-        bub.data = randomLetter();
-
-        bub.text = bub.data.letter;
-        bub.code = bub.data.code;
-
-        bub.class = 'html-class';
-        bub.id = ++defaults.bubCount;
-        bub.htmltag = '<h2 />';
-
-        //set offset/position
-        bub.topPos = Math.floor(Math.random() * (
-            (defaults.pfHeight * 0.9 - defaults.pfHeight * 0.1) + defaults.pfWidth * 0.1
-        )) + 'px';
-        bub.leftPos = Math.floor(Math.random() * (
-            (defaults.pfWidth * 0.9 - defaults.pfWidth * 0.1) + defaults.pfWidth * 0.1
-        )) + 'px';
-
-        showBub(bub);
-
-    }
-
-    function killBub(bub) {
-        $('#' + bub.id).remove();
-    }
+        bub = new Bub();
+        bub.showBub();
+    }    
 
     function randomLetter() {
-        var b = {};
-        b.code = (Math.floor(Math.random() * 26))+65
-        b.letter = String.fromCharCode(b.code);
-
-        return b
+        var rand = {};
+        rand.code = (Math.floor(Math.random() * 26)) + 65;
+        rand.letter = String.fromCharCode(rand.code);
+        return rand;
     }
 
-    function showBub(bub) {
-        $(bub.htmltag, {
-            'text': bub.text,
-            'id': bub.id
+    function Bub() {
+
+        this.data = randomLetter();
+        this.text = this.data.letter;
+        this.code = this.data.code;
+        this.class = 'html-class';
+        this.id = ++defaults.bubCount;
+        this.htmltag = '<h2 />';
+        this.topPos = Math.floor(Math.random() * (
+            (defaults.pfHeight * 0.9 - defaults.pfHeight * 0.1) + defaults.pfWidth * 0.1
+        )) + 'px';
+        this.leftPos = Math.floor(Math.random() * (
+            (defaults.pfWidth * 0.9 - defaults.pfWidth * 0.1) + defaults.pfWidth * 0.1
+        )) + 'px';
+    }
+
+    Bub.prototype.showBub = function() {
+        $(this.htmltag, {
+            'text': this.text,
+            'id': this.id
         }).appendTo(defaults.pf);
 
-        $('#' + bub.id).css({
+        $('#' + this.id).css({
             'position': 'relative',
-            'top': bub.topPos,
-            'left': bub.leftPos
+            'top': this.topPos,
+            'left': this.leftPos
         })
     }
 
-    function endGame(bub) {
-        console.log('Game Over');
+    Bub.prototype.kill = function () {
+        $('#' + this.id).remove();
     }
-        
+
+    function endGame() {
+        $(document).off('keydown');
+        console.log('Game Over');
+        $(defaults.pf).append("<h1 id='gameover'>Game Over</h1>");
+
+        $('#gameover').position({
+            my: 'center', 
+            at: 'center', 
+            of: defaults.pf});
+    }
+   
+
+    function setScoreboard() {
+        $('#scoreboard').css({ "width": defaults.pfWidth });
+        $('#score').text(defaults.bubCount);
+        $('#lives').text(defaults.lives);
+
+    }
+
+
     init();
 
 });
