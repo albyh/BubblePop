@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: blue;
+    background-color: #235;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -33,8 +33,19 @@ p{
     padding: 0px;
 }
 
+.logo{
+    width: 75px;
+    display: inline-block;
+}
+
+
 #title{
+    font-size: 4rem;
+    margin: 0px 200px;
     text-align: center;
+      background: -webkit-linear-gradient(white, blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 #playfield{
