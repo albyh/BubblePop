@@ -1,27 +1,26 @@
-﻿$( 'document' ).ready( function(){
+﻿"use strict";
+$('document').ready(function () {
 
 
     var defaults = {
         'pf': '#playfield',
-        'pfHeight': 800,
-        'pfWidth': 800,
+        'pfHeight': 600,
+        'pfWidth': 600,
         'lives': 5,
         'bubCount': 0
-        
-    }
-
+    };
 
     function init() {
         var bub = {};
 
-
-
         $(defaults.pf).css({
             'margin': 'auto',
-            'height': '800px', 
-            'width': '800px', 
-            'background-color': 'aquamarine'
-        })
+            'height': defaults.pfHeight,
+            'width': defaults.pfWidth,
+            'background-color': 'black'
+        });
+        
+        setScoreboard();
 
         $(document).keydown(function (e) {
             console.log('Current Bub: ' + bub.text);
@@ -33,7 +32,7 @@
 
             } else {
                 console.log('WRONG keypress');
-                defaults.lives--
+                defaults.lives--;
             }
 
             killBub(bub);
@@ -46,14 +45,16 @@
                 endGame(bub)
             }
         });
-
-            createBub(bub)
-
-
+        createBub(bub);
     }
 
-    function createBub(bub) {
+    function setScoreboard() {
+        $('#scoreboard').css({ "width": defaults.pfWidth });
+        $('#lives').text(defaults.lives);
+    }
 
+
+    function createBub(bub) {
 
         bub.data = randomLetter();
 
@@ -62,13 +63,17 @@
 
         bub.class = 'html-class';
         bub.id = ++defaults.bubCount;
-        bub.htmltag = '<h2 />'
+        bub.htmltag = '<h2 />';
 
         //set offset/position
-        bub.topPos = 0;
-        bub.leftPos = -300;
+        bub.topPos = Math.floor(Math.random() * (
+            (defaults.pfHeight * 0.9 - defaults.pfHeight * 0.1) + defaults.pfWidth * 0.1
+        )) + 'px';
+        bub.leftPos = Math.floor(Math.random() * (
+            (defaults.pfWidth * 0.9 - defaults.pfWidth * 0.1) + defaults.pfWidth * 0.1
+        )) + 'px';
 
-        showBub( bub );
+        showBub(bub);
 
     }
 
@@ -77,7 +82,7 @@
     }
 
     function randomLetter() {
-        b = {};
+        var b = {};
         b.code = (Math.floor(Math.random() * 26))+65
         b.letter = String.fromCharCode(b.code);
 
@@ -89,19 +94,18 @@
             'text': bub.text,
             'id': bub.id
         }).appendTo(defaults.pf);
-        //$("<h2 />", { 'text': 'bub' }).appendTo('#field');
 
         $('#' + bub.id).css({
             'position': 'relative',
-            'top': Math.floor(Math.random() * defaults.pfHeight - (defaults.pfHeight* .1)) + 'px',
-            'left': Math.floor(Math.random() * defaults.pfWidth - (defaults.pfWidth*.1)) + 'px'
+            'top': bub.topPos,
+            'left': bub.leftPos
         })
     }
 
     function endGame(bub) {
         console.log('Game Over');
     }
-
+        
     init();
 
 });
