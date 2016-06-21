@@ -8,18 +8,23 @@ $('document').ready(function () {
         'pfWidth': 600,
         'lives': 5,
         'bubCount': 0,
-        'updateScore': function(b){ 
-            if (b){ 
-                $('#score').text(this.bubCount); 
+        'updateScore': function(n){ 
+            if (n > 0){ 
+                ++this.bubCount;
+                $('#score').text(this.bubCount);
+            } else if (n < 0) {
+                --this.lives;
+                $('#lives').text(this.lives);
             } else {
-                --this.lives; $('#lives').text(this.lives); 
+                $('#score').text(this.bubCount);
+                $('#lives').text(this.lives);
             }
          }
     };
 
     function init() {
         
-        var bub = {};
+
 
         $(defaults.pf).css({
             'margin': 'auto',
@@ -30,6 +35,27 @@ $('document').ready(function () {
         
         setScoreboard();
 
+
+        gameMsg("Press Spacebar to play!");
+
+        $(document).on('keydown', function (e) {
+
+            if (e.keyCode === 32) {
+                removeMsg();
+                $(document).off('keydown');
+                console.log('START');
+                play();
+            }
+        });
+
+
+
+
+        
+    }
+
+    function play() {
+        var bub = {};
         $(document).on('keydown', function (e) {
             console.groupCollapsed('keypress');
             console.log('Current Bub: ' + bub.text);
@@ -39,10 +65,10 @@ $('document').ready(function () {
 
             if (e.keyCode === bub.code) {
                 console.log('CORRECT keypress');
-                defaults.updateScore(true);
+                defaults.updateScore(1);
             } else {
                 console.log('WRONG keypress');
-                defaults.updateScore(false);
+                defaults.updateScore(-1);
             }
 
             bub.kill();
@@ -53,7 +79,7 @@ $('document').ready(function () {
                 bub.showBub();
             } else {
                 console.log('else...defaults.lives: ' + defaults.lives);
-                endGame()
+                gameMsg( "Game Over" )
             }
         });
         bub = new Bub();
@@ -73,7 +99,7 @@ $('document').ready(function () {
         this.text = this.data.letter;
         this.code = this.data.code;
         this.class = 'html-class';
-        this.id = ++defaults.bubCount;
+        this.id = defaults.bubCount;
         this.htmltag = '<h2 />';
         this.topPos = Math.floor(Math.random() * (
             (defaults.pfHeight * 0.9 - defaults.pfHeight * 0.1) + defaults.pfWidth * 0.1
@@ -100,23 +126,24 @@ $('document').ready(function () {
         $('#' + this.id).remove();
     }
 
-    function endGame() {
+    function gameMsg(msg) {
         $(document).off('keydown');
         console.log('Game Over');
-        $(defaults.pf).append("<h1 id='gameover'>Game Over</h1>");
+        $(defaults.pf).append("<h1 id='gameMsg'>"+msg+"</h1>");
 
-        $('#gameover').position({
+        $('#gameMsg').position({
             my: 'center', 
             at: 'center', 
             of: defaults.pf});
     }
-   
+
+    function removeMsg() {
+        $('#gameMsg').remove();
+    }
 
     function setScoreboard() {
         $('#scoreboard').css({ "width": defaults.pfWidth });
-        $('#score').text(defaults.bubCount);
-        $('#lives').text(defaults.lives);
-
+        defaults.updateScore(0);
     }
 
 
