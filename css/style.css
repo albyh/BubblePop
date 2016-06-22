@@ -7,10 +7,6 @@ span{
     margin: 0px 0px 0px 5px;
 }
 
-
-#field {
-}
-
 h1, h2, h3, h4, h5, h6, p, span {
     color: white;
 }
@@ -20,18 +16,22 @@ p{
 }
 
 .info{
-    width:270px;
+    width:80%;
     border: 1px solid white;
     border-radius: 0px 15px 0px 0px;
     background-color: purple;
 }
 
 .info p{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: greenyellow;
-    margin: 10px 60px 10px 10px;
+    margin: 10px 60px 10px 60px;
     text-align: right;
     padding: 0px;
+    display: inline-block;
+}
+
+.tally{
 }
 
 .logo{
@@ -40,9 +40,25 @@ p{
 }
 
 .instructions{
-    text-align: right;
-    margin: 0px;
-    padding: 10px 30px 5px 0px;
+    text-align: center;
+    margin: 5px;
+    padding: 0px 30px 0px 0px;
+}
+#firstp{
+    margin-top: 20px;
+}
+
+#lastp{
+    margin-bottom: 20px;
+}
+
+.letter{
+    text-align: center;
+}
+
+
+.bubble{
+    /*z-index:-1;*/ 
 }
 
 #title{
@@ -56,10 +72,11 @@ p{
 
 #playfield{
     border: 1px solid white;
+
 }
 
 #scoreboard {
-    height: 150px;
+    height: 164px;
     border-radius: 15px 15px 0px 0px;
     background-color: rebeccapurple;
     border: 1px solid white;
@@ -79,10 +96,3 @@ p{
     text-align: center;
 }
 
-.letter{
-    text-align: center;
-}
-
-.bubble{
-    /*z-index:-1;*/ 
-}

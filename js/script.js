@@ -3,14 +3,15 @@ $('document').ready(function () {
 
 
     var x = {
+        'toWin': 25,
+        'pins': 3,
         'pf': '#playfield',
         'pfHeight': 600,
         'pfWidth': 600,
-        'pins': 10,
         'bubCount': 0,
         'startTime': 0,
         'endTime': 0,
-        'toWin': 5,
+        'bgImage': '../images/field.jpg',
         'bgColor': 'black',
         'updateScore': function(n){ 
             if (n > 0){ 
@@ -35,7 +36,8 @@ $('document').ready(function () {
             'margin': 'auto',
             'height': x.pfHeight,
             'width': x.pfWidth,
-            'background-color': x.bgColor
+            'background-image': 'url('+x.bgImage+')',
+            'background-size': 'auto 100%' //+x.pfHeight
         });
         setScoreboard();
         gameMsg("Press Spacebar to play!");
@@ -72,16 +74,14 @@ $('document').ready(function () {
             if (x.pins > 0) {
                 console.log('>0...x.pins: ' + x.pins);
                 bub = new Bub()
-                bub.bubContainer()
-                //bub.showBub();
+                bub.showBub()
             } else {
                 console.log('else...x.pins: ' + x.pins);
                 gameMsg( "Game Over" )
             }
         });
         bub = new Bub();
-        bub.bubContainer()
-        //bub.showBub();
+        bub.showBub()
     }    
 
     function randomLetter() {
@@ -113,9 +113,15 @@ $('document').ready(function () {
 
     function finished() {
         var msg = "You Finished in ", secs = " seconds!",
-        fast = (x.endTime - x.startTime) / 1000;
+        playTime = (x.endTime - x.startTime) / 1000;
+        gameMsg(msg+playTime+secs);
+    }
 
-        gameMsg(msg+fast+secs);
+
+    function randomColor() {
+        var rint = Math.round(0xffffff * Math.random());
+        return (rint && 255) + ',' + (rint & 255) + ',' + (rint & 255);
+        //return (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255);
     }
 
     function Bub() {
@@ -134,38 +140,16 @@ $('document').ready(function () {
         )) + 'px';
     }
 
-    Bub.prototype.showBub = function () {
-
-        $(this.htmltag, {
-            'text': this.text,
-            'id': this.id
-        }).appendTo('#bubble');
-        //}).appendTo(x.pf);
-
-        //$('#' + this.id).css({
-        //    'position': 'relative',
-        //    'top': this.topPos,
-        //    'left': this.leftPos
-        //})
-    }
-
     Bub.prototype.kill = function () {
-
-      
         //$('#' + this.id).toggle("puff");
         $('#bub' + this.id).remove();
     }
 
-    /*********************************************************************************************/
-    Bub.prototype.bubContainer = function() {
-
-        //var numberOfbubs = $("#nrOfOrbs").val();
-        //var bubMinSize = parseInt($("#orbMin").val());
-        //var bubMaxSize = parseInt($("#orbMax").val());
-        //var orbColour = $("#orbColour").val();
-        var useGradients = false;
-        var bubSize = 40;
-        var bubColour = randomColour();
+    Bub.prototype.showBub = function() {
+        var useGradients = true;
+        var bubSize = 50;
+        var bubColor = randomColor();
+        var ltrColor = 'white';
 
         var bub = $("<div />", {'id': 'bub'+this.id})
                 .addClass(this.bubClass)
@@ -177,44 +161,40 @@ $('document').ready(function () {
                     'height': bubSize + 'px',
                     '-moz-border-radius': Math.floor(bubSize) / 2 + 'px',
                     '-webkit-border-radius': Math.floor(bubSize) / 2 + 'px',
-                    'border': '1px solid rgba(' + bubColour + ', 0.7)'                    
+                    'border': '1px solid rgba(' + bubColor + ', 0.7)'                    
                 });
 
         if (useGradients) {
             bub.css({
-                // Gradients for Firefox
-                'background': '-moz-radial-gradient( contain, rgba(' + bubColour + ', 0.1), rgba(' + bubColour + ',0.4))',
-                // Freaking ugly workaround to make gradients work for Safari too, by applying it to the background-image
-                'background-image': '-webkit-gradient(radial, center center, 0, center center, 70.5, from(rgba(' + bubColour + ', 0.1)), to(rgba(' + bubColour + ',0.4)))'
+                'background': '-moz-radial-gradient( contain, rgba(' + bubColor + ', 0.10), rgba(' + bubColor + ',0.9))',
+                'background-image': '-webkit-gradient(radial, center center, 10, center center, 50, from(rgba(' + bubColor + ', 0.10)), to(rgba(' + bubColor + ',0.90)))'
             });
         }
         else {
             bub.css({
-                'background': 'rgba(' + bubColour + ', 0.3)'
+                'background': 'rgba(' + bubColor + ', 0.8)'
             });
         }
 
         // Append to container
         bub.appendTo(x.pf);
 
-        $(this.htmltag, {
-            'class': this.ltrClass,
-            'text': this.text,
-            'id': this.id
-        }).appendTo('#bub' + this.id).position({
-            my: 'center',
-            at: 'center',
-            of: '#bub' + this.id
+        $(this.htmltag,
+             {
+                'class': this.ltrClass,
+                'text': this.text,
+                'id': this.id
+             })
+         .css(
+             {
+                 'color': ltrColor
+             })
+         .appendTo('#bub' + this.id).position({
+             my: 'center',
+             at: 'center',
+             of: '#bub' + this.id
         });
-        
     }
-
-    function randomColour() {
-        var rint = Math.round(0xffffff * Math.random());
-        return (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255);
-    }
-
-
 
     init();
 
