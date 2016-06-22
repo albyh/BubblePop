@@ -7,6 +7,7 @@ span{
     margin: 0px 0px 0px 5px;
 }
 
+
 #field {
 }
 
@@ -38,12 +39,17 @@ p{
     display: inline-block;
 }
 
+.instructions{
+    text-align: right;
+    margin: 0px;
+    padding: 10px 30px 5px 0px;
+}
 
 #title{
     font-size: 4rem;
     margin: 0px 200px;
     text-align: center;
-      background: -webkit-linear-gradient(white, blue);
+    background: -webkit-linear-gradient(white, blue);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -64,3 +70,11 @@ p{
     text-align: center;
 }
 
+#score, #lives{
+    color: yellow;
+    background-color: red;
+    display: inline-block;
+    width: 20px;
+    padding: 0px 3px;;
+    text-align: center;
+}
