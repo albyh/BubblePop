@@ -11,7 +11,7 @@ $('document').ready(function () {
         'bubCount': 0,
         'startTime': 0,
         'endTime': 0,
-        'bgImage': '../images/field.jpg',
+        'bgImage': 'images/field.jpg',
         'bgColor': 'black',
         'updateScore': function(n){ 
             if (n > 0){ 
