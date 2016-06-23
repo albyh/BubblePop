@@ -3,7 +3,7 @@ $('document').ready(function () {
 
 
     var x = {
-        'toWin': 25,
+        'toWin': 5,
         'pins': 3,
         'pf': '#playfield',
         'pfHeight': 600,
@@ -39,13 +39,13 @@ $('document').ready(function () {
             'background-image': 'url('+x.bgImage+')',
             'background-size': 'auto 100%' //+x.pfHeight
         });
+        $('footer').css({ 'width': x.pfWidth });
         setScoreboard();
         gameMsg("Press Spacebar to play!");
         $(document).on('keydown', function (e) {
             if (e.keyCode === 32) {
                 removeMsg();
                 $(document).off('keydown');
-                console.log('START');
                 play();
             }
         });
@@ -55,29 +55,17 @@ $('document').ready(function () {
         var bub = {};
         x.startTime = Date.now();
         $(document).on('keydown', function (e) {
-            console.groupCollapsed('keypress');
-            console.log('Current Bub: ' + bub.text);
-            console.log('e.target: ' + e.target);
-            console.log('e.keyCode: ' + e.keyCode);
-            console.groupEnd();
-
-            if (e.keyCode === bub.code) {
-                console.log('CORRECT keypress');
-                x.updateScore(1);
-            } else {
-                console.log('WRONG keypress');
-                x.updateScore(-1);
-            }
-
+            (e.keyCode === bub.code) ? x.updateScore(1) :  x.updateScore(-1)
             bub.kill();
-
-            if (x.pins > 0) {
-                console.log('>0...x.pins: ' + x.pins);
+            if (x.pins > 0 && x.bubCount < x.toWin ) {
                 bub = new Bub()
                 bub.showBub()
             } else {
-                console.log('else...x.pins: ' + x.pins);
-                gameMsg( "Game Over" )
+                if (x.bubCount < x.toWin) {
+                    gameMsg("Lost all your pins. Try Again!")
+                } else {
+                    gameMsg("Game Over")
+                }
             }
         });
         bub = new Bub();
@@ -93,7 +81,6 @@ $('document').ready(function () {
 
     function gameMsg(msg) {
         $(document).off('keydown');
-        console.log('Game Over');
         $(x.pf).append("<h1 id='gameMsg'>" + msg + "</h1>");
         $('#gameMsg').position({
             my: 'center',
@@ -112,11 +99,18 @@ $('document').ready(function () {
     }
 
     function finished() {
-        var msg = "You Finished in ", secs = " seconds!",
-        playTime = (x.endTime - x.startTime) / 1000;
-        gameMsg(msg+playTime+secs);
+        var msg = "", secs = " seconds!",playTime = (x.endTime - x.startTime) / 1000;
+        if (playTime < 16) {
+            msg = "You're the best of the best! ";
+        } else if (playTime < 23 && playTime >= 16) {
+            msg = "Not bad but you can do better! ";
+        } else if (playTime < 30 && playTime >= 23) {
+            msg = "Meh...Not impressed. ";
+        } else { 
+            msg = "Were you even playing? ";
+        }
+        gameMsg(playTime + secs + "<br/>" + msg);
     }
-
 
     function randomColor() {
         var rint = Math.round(0xffffff * Math.random());
@@ -146,11 +140,10 @@ $('document').ready(function () {
     }
 
     Bub.prototype.showBub = function() {
-        var useGradients = true;
+        var useGradient = true;
         var bubSize = 50;
         var bubColor = randomColor();
         var ltrColor = 'white';
-
         var bub = $("<div />", {'id': 'bub'+this.id})
                 .addClass(this.bubClass)
                 .css({
@@ -164,10 +157,11 @@ $('document').ready(function () {
                     'border': '1px solid rgba(' + bubColor + ', 0.7)'                    
                 });
 
-        if (useGradients) {
+        if (useGradient) {
             bub.css({
-                'background': '-moz-radial-gradient( contain, rgba(' + bubColor + ', 0.10), rgba(' + bubColor + ',0.9))',
-                'background-image': '-webkit-gradient(radial, center center, 10, center center, 50, from(rgba(' + bubColor + ', 0.10)), to(rgba(' + bubColor + ',0.90)))'
+                'background': '-moz-radial-gradient( contain, rgba(' + bubColor + ', 0.10), rgba(' + bubColor + ',0.25))',
+                'background-image': '-webkit-gradient(radial, center center, 70, center center, 90, from(rgba(' + bubColor + ', 0.80)), to(rgba(' + bubColor + ',0.90)))',
+                'background-image': 'radial-gradient(farthest-corner at 10px 10px , #DDEEFF 0%, rgb(' + bubColor + ') 25%)'
             });
         }
         else {

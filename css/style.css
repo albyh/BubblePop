@@ -15,6 +15,21 @@ p{
     padding: 10px 30px;
 }
 
+footer{
+    border: 1px solid white;
+    margin: auto;
+    background-color: black;
+    height: 40px;
+    padding: 0px;
+}
+
+
+footer h5 {
+    text-align: center;
+    margin: 10px;
+    color: white;
+}
+
 .info{
     width:80%;
     border: 1px solid white;
@@ -25,7 +40,7 @@ p{
 .info p{
     font-size: 1.4rem;
     color: greenyellow;
-    margin: 10px 60px 10px 60px;
+    margin: 10px 60px 10px 50px;
     text-align: right;
     padding: 0px;
     display: inline-block;
@@ -44,6 +59,7 @@ p{
     margin: 5px;
     padding: 0px 30px 0px 0px;
 }
+
 #firstp{
     margin-top: 20px;
 }
@@ -54,8 +70,10 @@ p{
 
 .letter{
     text-align: center;
+    /*-webkit-text-stroke: 1px black;*/
+    color: white;
+    text-shadow: -3px 3px 8px #111111;
 }
-
 
 .bubble{
     /*z-index:-1;*/ 
@@ -66,8 +84,8 @@ p{
     margin: 0px 200px;
     text-align: center;
     background: -webkit-linear-gradient(white, blue);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 #playfield{
@@ -91,8 +109,9 @@ p{
     color: yellow;
     background-color: red;
     display: inline-block;
-    width: 20px;
+    width: 30px;
     padding: 0px 3px;;
     text-align: center;
+    border-radius: 15px 0px 15px 0px;
 }
 
