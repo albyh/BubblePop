@@ -3,7 +3,7 @@ $('document').ready(function () {
 
 
     var x = {
-        'toWin': 5,
+        'toWin': 25,
         'pins': 3,
         'pf': '#playfield',
         'pfHeight': 600,
@@ -160,8 +160,7 @@ $('document').ready(function () {
         if (useGradient) {
             bub.css({
                 'background': '-moz-radial-gradient( contain, rgba(' + bubColor + ', 0.10), rgba(' + bubColor + ',0.25))',
-                'background-image': '-webkit-gradient(radial, center center, 70, center center, 90, from(rgba(' + bubColor + ', 0.80)), to(rgba(' + bubColor + ',0.90)))',
-                'background-image': 'radial-gradient(farthest-corner at 10px 10px , #DDEEFF 0%, rgb(' + bubColor + ') 25%)'
+                'background': 'radial-gradient(farthest-corner at 10px 10px , #DDEEFF 0%, rgb(' + bubColor + ') 25%)'
             });
         }
         else {
