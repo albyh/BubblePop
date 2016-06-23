@@ -152,14 +152,12 @@ $('document').ready(function () {
                     'top': this.topPos,
                     'width': bubSize + 'px',
                     'height': bubSize + 'px',
-                    '-moz-border-radius': Math.floor(bubSize) / 2 + 'px',
-                    '-webkit-border-radius': Math.floor(bubSize) / 2 + 'px',
+                    'border-radius': Math.floor(bubSize) / 2 + 'px',
                     'border': '1px solid rgba(' + bubColor + ', 0.7)'                    
                 });
 
         if (useGradient) {
             bub.css({
-                'background': '-moz-radial-gradient( contain, rgba(' + bubColor + ', 0.10), rgba(' + bubColor + ',0.25))',
                 'background': 'radial-gradient(farthest-corner at 10px 10px , #DDEEFF 0%, rgb(' + bubColor + ') 25%)'
             });
         }
