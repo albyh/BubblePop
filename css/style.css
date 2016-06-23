@@ -1,6 +1,7 @@
 ﻿body {
     background-color: #235;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing:antialiased;
 }
 
 span{
@@ -75,8 +76,23 @@ footer h5 {
     text-shadow: -3px 3px 8px #111111;
 }
 
+@keyframes bobble {
+    0% {
+        transform: translate3d(0px, 0px, 0px);
+        animation-timing-function: ease-in-out;
+    }
+    50% {
+        transform: translate3d(-10px, 50px, 0px);
+        animation-timing-function: ease-in-out;
+    }
+    100% {
+        transform: translate3d(0px, 0px, 0px);
+    }
+}
+
 .bubble{
-    /*z-index:-1;*/ 
+    animation: bobble 5s infinite;
+
 }
 
 #title{
