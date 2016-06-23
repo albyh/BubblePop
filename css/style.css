@@ -99,7 +99,7 @@ footer h5 {
     font-size: 4rem;
     margin: 0px 200px;
     text-align: center;
-    background: linear-gradient(white, blue);
+    background: -webkit-linear-gradient(white, blue);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
